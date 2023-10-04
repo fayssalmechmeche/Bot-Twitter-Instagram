@@ -1,0 +1,27 @@
+{
+  "name": "fayssalmechmeche/sana",
+  "description": "bot qui recupere le contenue instagram de sana de twice et le publie sur twitter",
+  "require": {
+    "abraham/twitteroauth": "^6.1",
+    "raiym/instagram-php-scraper": "^0.12.9",
+    "vlucas/phpdotenv": "^5.5",
+    "guzzlehttp/guzzle": "^7.8",
+    "phpfastcache/phpfastcache": "^9.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fayssal\\Sana\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "fayssal"
+    }
+  ],
+  "scripts": {
+    "start": "php src/script.php"
+  },
+  "config": {
+    "process-timeout": 0
+  }
+}
