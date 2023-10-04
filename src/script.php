@@ -5,8 +5,6 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use Phpfastcache\Helper\Psr16Adapter;
 
 
-$env = Dotenv\Dotenv::createImmutable(__DIR__);
-$env->load();
 $mysql = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_SERVER']);
 
 
