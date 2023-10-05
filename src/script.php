@@ -16,8 +16,9 @@ $mysql = mysqli_connect($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWO
 // $accessTokenSecret = $_env['TWITTER_ACCESS_TOKEN_SECRET'];
 
 // $connection = new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
-$instagram = new \InstagramScraper\Instagram(new \GuzzleHttp\Client(['proxy' => 'http://fixie:jg5uhnuelWtZNKE@olympic.usefixie.com:80']));
-\InstagramScraper\Instagram::setHttpClient(new \GuzzleHttp\Client());
+$instagram = \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Client(), $_ENV['INSTAGRAM_LOGIN'], $_ENV['INSTAGRAM_PASSWORD'], new Psr16Adapter('Files'));
+$instagram->login();
+$instagram->saveSession();
 $twitter = new TwitterOAuth($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUMER_SECRET'], $_ENV['TWITTER_ACCESS_TOKEN'], $_ENV['TWITTER_ACCESS_TOKEN_SECRET']);
 $twitter->setApiVersion("1.1");
 
