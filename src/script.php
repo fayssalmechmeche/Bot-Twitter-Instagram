@@ -23,7 +23,8 @@ $twitter = new TwitterOAuth($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUM
 $twitter->setApiVersion("1.1");
 
 echo ("Script lancé !");
-// $medias = $instagram->getMedias($_ENV['INSTAGRAM_USERNAME'], 20);
+echo ($_ENV['INSTAGRAM_USERNAME']);
+$medias = $instagram->getMedias($_ENV['INSTAGRAM_USERNAME'], 20);
 // function checkPostSana($medias, $twitter, $mysql)
 // {
 //     foreach ($medias as $media) {
