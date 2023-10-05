@@ -22,18 +22,7 @@ $instagram->saveSession();
 $twitter = new TwitterOAuth($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUMER_SECRET'], $_ENV['TWITTER_ACCESS_TOKEN'], $_ENV['TWITTER_ACCESS_TOKEN_SECRET']);
 $twitter->setApiVersion("1.1");
 
-$medias = $instagram->getMedias($_ENV['INSTAGRAM_USERNAME'], 999);
-
-
-function isFileExist($filename)
-{
-    if (file_exists($filename)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-checkPostSana($medias, $twitter, $mysql);
+$medias = $instagram->getMedias($_ENV['INSTAGRAM_USERNAME'], 20);
 function checkPostSana($medias, $twitter, $mysql)
 {
     foreach ($medias as $media) {
@@ -167,3 +156,13 @@ function checkPostSana($medias, $twitter, $mysql)
     sleep(1800);
     checkPostSana($medias, $twitter, $mysql);
 }
+
+function isFileExist($filename)
+{
+    if (file_exists($filename)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+checkPostSana($medias, $twitter, $mysql);
