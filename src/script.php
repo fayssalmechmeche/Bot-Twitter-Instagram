@@ -34,13 +34,13 @@ function checkPostSana($twitter, $mysql, $instagram)
                 }
                 $url = $media->getImageHighResolutionUrl();
                 $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . $media->getId() . '.jpg', $stockage);
+                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
 
                 if ($media->getCaption() != null) {
                     $caption = mysqli_real_escape_string($mysql, $media->getCaption());
                     $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
                 }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . $media->getId() . '.jpg']);
+                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
                 $twitter->setApiVersion("2");
                 $date = new DateTime();
                 $formattedDate = $date->format('d/m/Y');
@@ -61,7 +61,7 @@ function checkPostSana($twitter, $mysql, $instagram)
                 }
                 $url = $media->getVideoStandardResolutionUrl();
                 $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . $media->getId() . '.mp4', $stockage);
+                file_put_contents('src/media/' . 'post_' . $media->getId() . '.mp4', $stockage);
 
                 if ($media->getCaption() != null) {
                     $caption = mysqli_real_escape_string($mysql, $media->getCaption());
@@ -84,12 +84,12 @@ function checkPostSana($twitter, $mysql, $instagram)
                 }
                 $url = $media->getCarouselMedia()[0]->getImageHighResolutionUrl();
                 $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . $media->getId() . '.jpg', $stockage);
+                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
                 if ($media->getCaption() != null) {
                     $caption = mysqli_real_escape_string($mysql, $media->getCaption());
                     $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
                 }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . $media->getId() . '.jpg']);
+                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
                 $twitter->setApiVersion("2");
                 $date = new DateTime();
                 $formattedDate = $date->format('d/m/Y');
@@ -109,12 +109,12 @@ function checkPostSana($twitter, $mysql, $instagram)
                 }
                 $url = $media->getSidecarMedias()[0]->getImageHighResolutionUrl();
                 $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . $media->getId() . '.jpg', $stockage);
+                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
                 if ($media->getCaption() != null) {
                     $caption = mysqli_real_escape_string($mysql, $media->getCaption());
                     $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
                 }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . $media->getId() . '.jpg']);
+                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
                 $twitter->setApiVersion("2");
                 $date = new DateTime();
                 $formattedDate = $date->format('d/m/Y');
@@ -134,12 +134,12 @@ function checkPostSana($twitter, $mysql, $instagram)
                 }
                 $url = $media->getImageHighResolutionUrl();
                 $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . $media->getId() . '.jpg', $stockage);
+                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
                 if ($media->getCaption() != null) {
                     $caption = mysqli_real_escape_string($mysql, $media->getCaption());
                     $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
                 }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . $media->getId() . '.jpg']);
+                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
                 $twitter->setApiVersion("2");
                 $date = new DateTime();
                 $formattedDate = $date->format('d/m/Y');
