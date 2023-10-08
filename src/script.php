@@ -18,7 +18,6 @@ $twitter = new TwitterOAuth($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUM
 $twitter->setApiVersion("1.1");
 
 echo ("Script lancé ! \n");
-$twitter->setApiVersion("2");
 
 
 function checkPostSana($twitter, $mysql, $instagram)
