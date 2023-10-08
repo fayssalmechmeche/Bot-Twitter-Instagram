@@ -13,7 +13,6 @@ $instagram =  \InstagramScraper\Instagram::withCredentials(new \GuzzleHttp\Clien
 $instagram->login();
 $instagram->saveSession();
 
-$media = $instagram->getStories([$_ENV['INSTAGRAM_USER_ID']]);
 $twitter = new TwitterOAuth($_ENV['TWITTER_CONSUMER_KEY'], $_ENV['TWITTER_CONSUMER_SECRET'], $_ENV['TWITTER_ACCESS_TOKEN'], $_ENV['TWITTER_ACCESS_TOKEN_SECRET']);
 $twitter->setApiVersion("1.1");
 
@@ -158,7 +157,7 @@ function checkPostSana($twitter, $mysql, $instagram)
     echo "Mise à jour des posts de Sana terminée ! \n";
     sleep(900);
 
-    $storys = $instagram->getStories([51776454066]);
+    $storys = $instagram->getStories([$_ENV['INSTAGRAM_USER_ID']]);
 
     foreach ($storys as $index => $mediaUrl) {
         $filename = 'src/story/' . uniqid('story_') . '.jpg';
@@ -195,7 +194,6 @@ function checkPostSana($twitter, $mysql, $instagram)
 function isFileExist($filename)
 {
     if (file_exists($filename)) {
-        echo "Le fichier existe déjà !";
         return true;
     } else {
         return false;
