@@ -21,146 +21,151 @@ echo ("Script lancé ! \n");
 
 function checkPostSana($twitter, $mysql, $instagram)
 {
-    $medias = $instagram->getMedias($_ENV['INSTAGRAM_USER_USERNAME'], 20);
-    foreach ($medias as $media) {
+    // $medias = $instagram->getMedias($_ENV['INSTAGRAM_USER_USERNAME'], 20);
+    // foreach ($medias as $media) {
 
-        switch ($media->getType()) {
-            case 'image':
-                $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
+    //     switch ($media->getType()) {
+    //         case 'image':
+    //             $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
 
-                if (isFileExist($filename)) {
-                    break;
-                }
-                $url = $media->getImageHighResolutionUrl();
-                $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
+    //             if (isFileExist($filename)) {
+    //                 break;
+    //             }
+    //             $url = $media->getImageHighResolutionUrl();
+    //             $stockage = file_get_contents($url);
+    //             file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
 
-                if ($media->getCaption() != null) {
-                    $caption = mysqli_real_escape_string($mysql, $media->getCaption());
-                    $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
-                }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
-                $twitter->setApiVersion("2");
-                $date = new DateTime();
-                $formattedDate = $date->format('d/m/Y');
-                $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
-                $parameters = [
-                    'text' =>   $text,
-                    'media' => [
-                        'media_ids' => [$picture->media_id_string],
-                    ]
-                ];
-                $twitter->post("tweets", $parameters);
+    //             if ($media->getCaption() != null) {
+    //                 $caption = mysqli_real_escape_string($mysql, $media->getCaption());
+    //                 $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
+    //             }
+    //             $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
+    //             $twitter->setApiVersion("2");
+    //             $date = new DateTime();
+    //             $formattedDate = $date->format('d/m/Y');
+    //             $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
+    //             $parameters = [
+    //                 'text' =>   $text,
+    //                 'media' => [
+    //                     'media_ids' => [$picture->media_id_string],
+    //                 ]
+    //             ];
+    //             $twitter->post("tweets", $parameters);
 
-                break;
-            case 'video':
-                $filename = 'src/media/' . 'post_' . $media->getId() . '.mp4';
-                if (isFileExist($filename)) {
-                    break;
-                }
-                $url = $media->getVideoStandardResolutionUrl();
-                $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . 'post_' . $media->getId() . '.mp4', $stockage);
+    //             break;
+    //         case 'video':
+    //             $filename = 'src/media/' . 'post_' . $media->getId() . '.mp4';
+    //             if (isFileExist($filename)) {
+    //                 break;
+    //             }
+    //             $url = $media->getVideoStandardResolutionUrl();
+    //             $stockage = file_get_contents($url);
+    //             file_put_contents('src/media/' . 'post_' . $media->getId() . '.mp4', $stockage);
 
-                if ($media->getCaption() != null) {
-                    $caption = mysqli_real_escape_string($mysql, $media->getCaption());
-                    $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
-                }
+    //             if ($media->getCaption() != null) {
+    //                 $caption = mysqli_real_escape_string($mysql, $media->getCaption());
+    //                 $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
+    //             }
 
-                $twitter->setApiVersion("2");
-                $date = new DateTime();
-                $formattedDate = $date->format('d/m/Y');
-                $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
-                $parameters = [
-                    'text' =>   $text,
-                ];
-                $twitter->post("tweets", $parameters);
-                break;
-            case 'carousel':
-                $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
-                if (isFileExist($filename)) {
-                    break;
-                }
-                $url = $media->getCarouselMedia()[0]->getImageHighResolutionUrl();
-                $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
-                if ($media->getCaption() != null) {
-                    $caption = mysqli_real_escape_string($mysql, $media->getCaption());
-                    $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
-                }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
-                $twitter->setApiVersion("2");
-                $date = new DateTime();
-                $formattedDate = $date->format('d/m/Y');
-                $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
-                $parameters = [
-                    'text' =>   $text,
-                    'media' => [
-                        'media_ids' => [$picture->media_id_string],
-                    ]
-                ];
-                $twitter->post("tweets", $parameters);
-                break;
-            case 'sidecar':
-                $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
-                if (isFileExist($filename)) {
-                    break;
-                }
-                $url = $media->getSidecarMedias()[0]->getImageHighResolutionUrl();
-                $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
-                if ($media->getCaption() != null) {
-                    $caption = mysqli_real_escape_string($mysql, $media->getCaption());
-                    $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
-                }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
-                $twitter->setApiVersion("2");
-                $date = new DateTime();
-                $formattedDate = $date->format('d/m/Y');
-                $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
-                $parameters = [
-                    'text' =>   $text,
-                    'media' => [
-                        'media_ids' => [$picture->media_id_string],
-                    ]
-                ];
-                $twitter->post("tweets", $parameters);
-                break;
-            default:
-                $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
-                if (isFileExist($filename)) {
-                    break;
-                }
-                $url = $media->getImageHighResolutionUrl();
-                $stockage = file_get_contents($url);
-                file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
-                if ($media->getCaption() != null) {
-                    $caption = mysqli_real_escape_string($mysql, $media->getCaption());
-                    $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
-                }
-                $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
-                $twitter->setApiVersion("2");
-                $date = new DateTime();
-                $formattedDate = $date->format('d/m/Y');
-                $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
-                $parameters = [
-                    'text' =>   $text,
-                    'media' => [
-                        'media_ids' => [$picture->media_id_string],
-                    ]
-                ];
-                $twitter->post("tweets", $parameters);
-                break;
-        }
-    }
+    //             $twitter->setApiVersion("2");
+    //             $date = new DateTime();
+    //             $formattedDate = $date->format('d/m/Y');
+    //             $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
+    //             $parameters = [
+    //                 'text' =>   $text,
+    //             ];
+    //             $twitter->post("tweets", $parameters);
+    //             break;
+    //         case 'carousel':
+    //             $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
+    //             if (isFileExist($filename)) {
+    //                 break;
+    //             }
+    //             $url = $media->getCarouselMedia()[0]->getImageHighResolutionUrl();
+    //             $stockage = file_get_contents($url);
+    //             file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
+    //             if ($media->getCaption() != null) {
+    //                 $caption = mysqli_real_escape_string($mysql, $media->getCaption());
+    //                 $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
+    //             }
+    //             $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
+    //             $twitter->setApiVersion("2");
+    //             $date = new DateTime();
+    //             $formattedDate = $date->format('d/m/Y');
+    //             $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
+    //             $parameters = [
+    //                 'text' =>   $text,
+    //                 'media' => [
+    //                     'media_ids' => [$picture->media_id_string],
+    //                 ]
+    //             ];
+    //             $twitter->post("tweets", $parameters);
+    //             break;
+    //         case 'sidecar':
+    //             $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
+    //             if (isFileExist($filename)) {
+    //                 break;
+    //             }
+    //             $url = $media->getSidecarMedias()[0]->getImageHighResolutionUrl();
+    //             $stockage = file_get_contents($url);
+    //             file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
+    //             if ($media->getCaption() != null) {
+    //                 $caption = mysqli_real_escape_string($mysql, $media->getCaption());
+    //                 $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
+    //             }
+    //             $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
+    //             $twitter->setApiVersion("2");
+    //             $date = new DateTime();
+    //             $formattedDate = $date->format('d/m/Y');
+    //             $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
+    //             $parameters = [
+    //                 'text' =>   $text,
+    //                 'media' => [
+    //                     'media_ids' => [$picture->media_id_string],
+    //                 ]
+    //             ];
+    //             $twitter->post("tweets", $parameters);
+    //             break;
+    //         default:
+    //             $filename = 'src/media/' . 'post_' . $media->getId() . '.jpg';
+    //             if (isFileExist($filename)) {
+    //                 break;
+    //             }
+    //             $url = $media->getImageHighResolutionUrl();
+    //             $stockage = file_get_contents($url);
+    //             file_put_contents('src/media/' . 'post_' . $media->getId() . '.jpg', $stockage);
+    //             if ($media->getCaption() != null) {
+    //                 $caption = mysqli_real_escape_string($mysql, $media->getCaption());
+    //                 $mysql->query("INSERT INTO posts (content,image,type) VALUES ('$caption','$filename','post')");
+    //             }
+    //             $picture = $twitter->upload('media/upload', ['media' => 'src/media/' . 'post_' . $media->getId() . '.jpg']);
+    //             $twitter->setApiVersion("2");
+    //             $date = new DateTime();
+    //             $formattedDate = $date->format('d/m/Y');
+    //             $text = "🐹📸 " . $formattedDate . " : " .  $media->getCaption() . "\n" . $media->getLink() . "\n \n" . "#TWICE #트와이스 #SANA";
+    //             $parameters = [
+    //                 'text' =>   $text,
+    //                 'media' => [
+    //                     'media_ids' => [$picture->media_id_string],
+    //                 ]
+    //             ];
+    //             $twitter->post("tweets", $parameters);
+    //             break;
+    //     }
+    // }
 
     echo "Mise à jour des posts de Sana terminée ! \n";
-    sleep(900);
+
 
     $storys = $instagram->getStories([$_ENV['INSTAGRAM_USER_ID']]);
 
+
     foreach ($storys as $index => $mediaUrl) {
+
+
         $filename = 'src/story/' . uniqid('story_') . '.jpg';
+
+        echo $filename . "\n";
 
         if (isFileExist($filename)) {
             continue;
@@ -171,7 +176,8 @@ function checkPostSana($twitter, $mysql, $instagram)
 
         $mysql->query("INSERT INTO posts (image,type) VALUES ('$filename','story')");
 
-        $picture = $twitter->upload('media/upload', [$filename]);
+        $picture = $twitter->upload('media/upload', ['media' => $filename]);
+
         $twitter->setApiVersion("2");
         $date = new DateTime();
         $formattedDate = $date->format('d/m/Y');
